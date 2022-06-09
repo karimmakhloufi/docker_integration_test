@@ -5,6 +5,11 @@ services:
     build: ./backend
     ports:
       - 4000:4000
+    healthcheck:
+      test: ["CMD-SHELL", "curl.sh || exit 0"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
   database:
     image: mongo
     restart: always
@@ -22,3 +27,8 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: root
       ME_CONFIG_MONGODB_URL: mongodb://root:root@database:27017/
+  testrunner:
+    build: ./testrunner
+    depends_on:
+      backend:
+        condition: service_healthy

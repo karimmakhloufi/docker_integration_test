@@ -26,6 +26,6 @@ describe("book resolver", () => {
         }
       `,
     });
-    expect(res.data?.books).toEqual(["this should fail"]);
+    expect(res.data?.books).toEqual([]);
   });
 });

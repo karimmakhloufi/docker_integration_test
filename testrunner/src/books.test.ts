@@ -28,4 +28,34 @@ describe("book resolver", () => {
     });
     expect(res.data?.books).toEqual([]);
   });
+
+  it("books are empty", async () => {
+    const mutationresult = await client.mutate({
+      mutation: gql`
+        mutation books {
+          addBook(title: "The Lean Startup", author: "Eric Ries") {
+            title
+          }
+        }
+      `,
+    });
+
+    console.log(mutationresult);
+
+    await new Promise((r) => setTimeout(r, 10000));
+
+    const res = await client.query({
+      query: gql`
+        query Books {
+          books {
+            title
+            author
+          }
+        }
+      `,
+    });
+    expect(res).toContain([
+      { data: { books: { __typename: "Book", title: "The Lean Startup" } } },
+    ]);
+  });
 });

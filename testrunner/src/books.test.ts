@@ -38,7 +38,7 @@ describe("book resolver", () => {
       }
     `;
 
-    client.mutate({
+    await client.mutate({
       mutation: ADD_BOOK,
       variables: { title: "test", author: "test" },
     });

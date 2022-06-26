@@ -49,7 +49,6 @@ describe("book resolver", () => {
         query Books {
           books {
             title
-            author
           }
         }
       `,

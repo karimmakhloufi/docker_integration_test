@@ -21,7 +21,6 @@ describe("book resolver", () => {
         query Books {
           books {
             title
-            author
           }
         }
       `,
@@ -42,8 +41,6 @@ describe("book resolver", () => {
 
     console.log(mutationresult);
 
-    await new Promise((r) => setTimeout(r, 10000));
-
     const res = await client.query({
       query: gql`
         query Books {
@@ -53,7 +50,7 @@ describe("book resolver", () => {
         }
       `,
     });
-    expect(res).toContain([
+    expect(res).toEqual([
       { data: { books: { __typename: "Book", title: "The Lean Startup" } } },
     ]);
   });

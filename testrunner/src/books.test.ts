@@ -24,6 +24,7 @@ describe("book resolver", () => {
           }
         }
       `,
+      fetchPolicy: "no-cache",
     });
     expect(res.data?.books).toEqual([]);
   });
@@ -38,12 +39,10 @@ describe("book resolver", () => {
       }
     `;
 
-    const mutationResult = await client.mutate({
+    await client.mutate({
       mutation: ADD_BOOK,
       variables: { title: "test", author: "test" },
     });
-
-    console.log("mutation result", mutationResult);
 
     const res = await client.query({
       query: gql`
@@ -53,9 +52,10 @@ describe("book resolver", () => {
           }
         }
       `,
+      fetchPolicy: "no-cache",
     });
     console.log("res", res);
 
-    expect(res.data?.books).toEqual([]);
+    expect(res.data?.books).toEqual([{ __typename: "Book", title: "test" }]);
   });
 });

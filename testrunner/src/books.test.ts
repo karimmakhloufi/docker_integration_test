@@ -1,9 +1,4 @@
-import {
-  ApolloClient,
-  HttpLink,
-  InMemoryCache,
-  gql,
-} from "@apollo/client/core";
+import { ApolloClient, HttpLink, InMemoryCache, gql } from "@apollo/client";
 import fetch from "cross-fetch";
 
 const client = new ApolloClient({
@@ -29,6 +24,20 @@ describe("book resolver", () => {
   });
 
   it("books contain lean startup after mutation", async () => {
+    const ADD_BOOK = gql`
+      mutation addBook($title: String, $author: String) {
+        addBook(title: $title, author: $author) {
+          title
+          author
+        }
+      }
+    `;
+
+    client.mutate({
+      mutation: ADD_BOOK,
+      variables: { title: "test", author: "test" },
+    });
+
     const res = await client.query({
       query: gql`
         query Books {
@@ -38,6 +47,7 @@ describe("book resolver", () => {
         }
       `,
     });
+
     expect(res.data?.books).toEqual([]);
   });
 });

@@ -29,18 +29,6 @@ describe("book resolver", () => {
   });
 
   it("books contain lean startup after mutation", async () => {
-    const mutationresult = await client.mutate({
-      mutation: gql`
-        mutation books {
-          addBook(title: "The Lean Startup", author: "Eric Ries") {
-            title
-          }
-        }
-      `,
-    });
-
-    console.log(mutationresult);
-
     const res = await client.query({
       query: gql`
         query Books {
@@ -50,8 +38,6 @@ describe("book resolver", () => {
         }
       `,
     });
-    expect(res).toEqual([
-      { data: { books: { __typename: "Book", title: "The Lean Startup" } } },
-    ]);
+    expect(res.data?.books).toEqual([]);
   });
 });

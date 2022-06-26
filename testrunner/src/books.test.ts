@@ -21,11 +21,41 @@ describe("book resolver", () => {
         query Books {
           books {
             title
-            author
           }
         }
       `,
+      fetchPolicy: "no-cache",
     });
     expect(res.data?.books).toEqual([]);
+  });
+
+  it("books contain lean startup after mutation", async () => {
+    const ADD_BOOK = gql`
+      mutation addBook($title: String, $author: String) {
+        addBook(title: $title, author: $author) {
+          title
+          author
+        }
+      }
+    `;
+
+    await client.mutate({
+      mutation: ADD_BOOK,
+      variables: { title: "test", author: "test" },
+    });
+
+    const res = await client.query({
+      query: gql`
+        query Books {
+          books {
+            title
+          }
+        }
+      `,
+      fetchPolicy: "no-cache",
+    });
+    console.log("res", res);
+
+    expect(res.data?.books).toEqual([{ __typename: "Book", title: "test" }]);
   });
 });

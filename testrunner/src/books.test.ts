@@ -29,7 +29,7 @@ describe("book resolver", () => {
     expect(res.data?.books).toEqual([]);
   });
 
-  it("books are empty", async () => {
+  it("books contain lean startup after mutation", async () => {
     const mutationresult = await client.mutate({
       mutation: gql`
         mutation books {

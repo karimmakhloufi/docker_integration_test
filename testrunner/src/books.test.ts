@@ -38,10 +38,12 @@ describe("book resolver", () => {
       }
     `;
 
-    await client.mutate({
+    const mutationResult = await client.mutate({
       mutation: ADD_BOOK,
       variables: { title: "test", author: "test" },
     });
+
+    console.log("mutation result", mutationResult);
 
     const res = await client.query({
       query: gql`
@@ -52,6 +54,7 @@ describe("book resolver", () => {
         }
       `,
     });
+    console.log("res", res);
 
     expect(res.data?.books).toEqual([]);
   });

@@ -56,6 +56,8 @@ describe("book resolver", () => {
     });
     console.log("res", res);
 
-    expect(res.data?.books).toEqual([{ __typename: "Book", title: "test" }]);
+    expect(res.data?.books).toEqual([
+      { __typename: "Book", title: "sdlkjfhsdlkjfgh" },
+    ]);
   });
 });
